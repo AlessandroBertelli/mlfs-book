@@ -8,6 +8,7 @@ from geopy.geocoders import Nominatim
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from matplotlib.ticker import MultipleLocator
+import matplotlib.dates as mdates
 import openmeteo_requests
 import requests_cache
 from retry_requests import retry
@@ -251,9 +252,20 @@ def plot_air_quality_forecast(city: str, street: str, df: pd.DataFrame, file_pat
     legend1 = ax.legend(handles=patches, loc='upper right', title="Air Quality Categories", fontsize='x-small')
 
     # Aim for ~10 annotated values on x-axis, will work for both forecasts ans hindcasts
-    if len(df.index) > 11:
-        every_x_tick = len(df.index) / 10
-        ax.xaxis.set_major_locator(MultipleLocator(every_x_tick))
+    #if len(df.index) > 11:
+    #    every_x_tick = len(df.index) / 10
+    #    ax.xaxis.set_major_locator(MultipleLocator(every_x_tick))
+
+
+    #locator = mdates.AutoDateLocator(minticks=5, maxticks=12)
+    #formatter = mdates.ConciseDateFormatter(locator)
+    #ax.xaxis.set_major_locator(locator)
+    #ax.xaxis.set_major_formatter(formatter)
+
+    locator = mdates.AutoDateLocator(minticks=4, maxticks=12)
+    ax.xaxis.set_major_locator(locator)
+    formatter = mdates.DateFormatter('%Y-%m-%d')
+    ax.xaxis.set_major_formatter(formatter)
 
     plt.xticks(rotation=45)
 
